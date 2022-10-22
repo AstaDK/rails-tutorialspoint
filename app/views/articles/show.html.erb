@@ -1,0 +1,53 @@
+<p><span><a href="/">List Articles</a>
+    <
+    <a>Article Detail
+    </a>
+  </span></p>
+<p>Find me in app/views/articles/show.html.erb</p>
+
+<%# <a href="/articles/edit">Edit Article</a> %>
+<%#= link_to "Edit", edit_article_path(@article) %>
+
+<span>
+  <a href="<%= edit_article_path(@article) %>">Edit</a>
+  -
+  <%= link_to "Destroy", article_path(@article), data: {
+    turbo_method: :delete, 
+    turbo_confirm: "Are you sure?"
+  } %>
+</span>
+<h1><%= @article.title %></h1>
+<h2><%= @article.author %></h2>
+
+<div>
+  <%= @article.body %>
+</div>
+
+
+<h3>Comments</h3>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
+
+<h3>Add a comment:</h3>
+<%= form_with model: [ @article, @article.comments.build ] do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
